@@ -1,41 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 10
+void BFS(int matrix[10][10], int n, int start) {
+    int visited[10] = {0};
+    int queue[10];
+    int front = 0, rear = 0;
 
-void bfs(int adj[MAX][MAX], int visited[MAX], int start, int n) {
-    int queue[MAX], rear = -1, front = -1;
-
-    // Başlangıç düğümünü ziyaret et ve kuyruğa ekle
     visited[start] = 1;
-    queue[++rear] = start;
+    queue[rear++] = start;
 
-    while (front != rear) {
-        int current = queue[++front];
+    printf("BFS Gezintisi: ");
+
+    while (front < rear) {
+        int current = queue[front++];
         printf("%d ", current);
 
         for (int i = 0; i < n; i++) {
-            // Eğer komşuysa ve ziyaret edilmemişse
-            if (adj[current][i] == 1 && !visited[i]) {
+            if (matrix[current][i] == 1 && !visited[i]) {
                 visited[i] = 1;
-                queue[++rear] = i;
+                queue[rear++] = i;
             }
         }
     }
+    printf("\n");
 }
 
 int main() {
-    int n = 5; // Düğüm sayısı
-    int adj[MAX][MAX] = {
+    int n = 5;
+    int matrix[10][10] = {
         {0, 1, 1, 0, 0},
-        {1, 0, 0, 1, 0},
         {1, 0, 0, 1, 1},
-        {0, 1, 1, 0, 1},
-        {0, 0, 1, 1, 0}
+        {1, 0, 0, 0, 0},
+        {0, 1, 0, 0, 0},
+        {0, 1, 0, 0, 0}
     };
-    int visited[MAX] = {0};
 
-    printf("BFS Gezginligi: ");
-    bfs(adj, visited, 0, n);
+    BFS(matrix, n, 0);
+
     return 0;
 }

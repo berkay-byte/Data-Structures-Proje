@@ -1,32 +1,30 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#define MAX 10
-
-void dfs(int adj[MAX][MAX], int visited[MAX], int current, int n) {
-    // Düğümü ziyaret et
-    visited[current] = 1;
-    printf("%d ", current);
+void DFS(int matrix[10][10], int visited[], int n, int start) {
+    printf("%d ", start);
+    visited[start] = 1;
 
     for (int i = 0; i < n; i++) {
-        // Komşuysa ve ziyaret edilmemişse derine git
-        if (adj[current][i] == 1 && !visited[i]) {
-            dfs(adj, visited, i, n);
+        if (matrix[start][i] == 1 && !visited[i]) {
+            DFS(matrix, visited, n, i);
         }
     }
 }
 
 int main() {
     int n = 5;
-    int adj[MAX][MAX] = {
+    int visited[5] = {0, 0, 0, 0, 0};
+    int matrix[10][10] = {
         {0, 1, 1, 0, 0},
-        {1, 0, 0, 1, 0},
         {1, 0, 0, 1, 1},
-        {0, 1, 1, 0, 1},
-        {0, 0, 1, 1, 0}
+        {1, 0, 0, 0, 0},
+        {0, 1, 0, 0, 0},
+        {0, 1, 0, 0, 0}
     };
-    int visited[MAX] = {0};
 
-    printf("DFS Gezginligi: ");
-    dfs(adj, visited, 0, n);
+    printf("DFS Gezintisi: ");
+    DFS(matrix, visited, n, 0);
+
     return 0;
 }

@@ -1,59 +1,55 @@
 #include <stdio.h>
 
-int size = 0;
 void swap(int *a, int *b) {
-    int temp = *b;
-    *b = *a;
-    *a = temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-// Max-Heap özelliğini korumak için aşağı doğru düzenleme
-void heapify(int array[], int size, int i) {
-    if (size == 1) {
-        printf("Tek elemanli yigin!");
-    } else {
-        int largest = i;
-        int l = 2 * i + 1;
-        int r = 2 * i + 2;
-        if (l < size && array[l] > array[largest])
-            largest = l;
-        if (r < size && array[r] > array[largest])
-            largest = r;
-        if (largest != i) {
-            swap(&array[i], &array[largest]);
-            heapify(array, size, largest);
-        }
+void heapify(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        swap(&arr[i], &arr[largest]);
+        heapify(arr, n, largest);
     }
 }
 
-// Yeni eleman ekleme
-void insert(int array[], int newNum) {
-    if (size == 0) {
-        array[0] = newNum;
-        size += 1;
-    } else {
-        array[size] = newNum;
-        size += 1;
-        for (int i = size / 2 - 1; i >= 0; i--) {
-            heapify(array, size, i);
-        }
+void insert(int arr[], int *n, int value) {
+    arr[*n] = value;
+    *n = *n + 1;
+
+    for (int i = (*n / 2) - 1; i >= 0; i--) {
+        heapify(arr, *n, i);
     }
 }
 
-void printArray(int array[], int size) {
-    for (int i = 0; i < size; ++i)
-        printf("%d ", array[i]);
+void printHeap(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
     printf("\n");
 }
 
 int main() {
-    int array[10];
-    insert(array, 3);
-    insert(array, 9);
-    insert(array, 2);
-    insert(array, 1);
-    insert(array, 4);
+    int arr[100];
+    int n = 0;
 
-    printf("Max-Heap dizisi: ");
-    printArray(array, size);
+    insert(arr, &n, 10);
+    insert(arr, &n, 20);
+    insert(arr, &n, 15);
+    insert(arr, &n, 30);
+    insert(arr, &n, 40);
+
+    printf("Max Heap: ");
+    printHeap(arr, n);
+
+    return 0;
 }

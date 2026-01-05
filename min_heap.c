@@ -1,45 +1,55 @@
 #include <stdio.h>
 
-int size = 0;
 void swap(int *a, int *b) {
-    int temp = *b;
-    *b = *a;
-    *a = temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-// Min-Heap düzenlemesi
-void heapify(int array[], int size, int i) {
+void heapify(int arr[], int n, int i) {
     int smallest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
 
-    if (l < size && array[l] < array[smallest]) // Tek fark buradaki < isareti
-        smallest = l;
-    if (r < size && array[r] < array[smallest])
-        smallest = r;
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
 
     if (smallest != i) {
-        swap(&array[i], &array[smallest]);
-        heapify(array, size, smallest);
+        swap(&arr[i], &arr[smallest]);
+        heapify(arr, n, smallest);
     }
 }
 
-void insert(int array[], int newNum) {
-    array[size] = newNum;
-    size += 1;
-    for (int i = size / 2 - 1; i >= 0; i--) {
-        heapify(array, size, i);
+void insert(int arr[], int *n, int value) {
+    arr[*n] = value;
+    *n = *n + 1;
+
+    for (int i = (*n / 2) - 1; i >= 0; i--) {
+        heapify(arr, *n, i);
     }
+}
+
+void printHeap(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
 }
 
 int main() {
-    int array[10];
-    insert(array, 10);
-    insert(array, 20);
-    insert(array, 5);
-    insert(array, 8);
+    int arr[100];
+    int n = 0;
 
-    printf("Min-Heap dizisi: ");
-    for (int i = 0; i < size; ++i) printf("%d ", array[i]);
+    insert(arr, &n, 40);
+    insert(arr, &n, 30);
+    insert(arr, &n, 15);
+    insert(arr, &n, 20);
+    insert(arr, &n, 10);
+
+    printf("Min Heap: ");
+    printHeap(arr, n);
+
     return 0;
 }
